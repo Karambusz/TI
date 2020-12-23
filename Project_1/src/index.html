@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sortowanie bąbelkowe</title>
+    <link rel="shortcut icon" type="img/svg" href="img/icon.svg" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section class="header" id="up">
+        <h2 class="title_hide">1</h2>
+        <div class="container">
+            <div class="menu_wrapper">
+                <nav>
+                    <ul class="menu">
+                        <li class="menu_item"><a href="#info">Informacja</a></li>
+                        <li class="menu_item"><a href="#visualisation">Wizualizacja</a></li>
+                        <li class="menu_item"><a href="#implementation">Implementacja</a></li>
+                        <li class="menu_item"><a href="#complexity">Złożoność</a></li> 
+                        <li class="menu_item"><a href="#contact">Kontakt</a></li>      
+                    </ul>
+                </nav>
+            </div>
+            <div class="logo_wrapper">
+                <div class="logo">
+                    <img class="logo_img" src="./img/logo.png" alt="logo">  
+                </div>
+                <div class="title"><h1>Sortowanie bąbelkowe</h1></div>
+            </div>            
+        </div>
+    </section>
+
+    <section class="info" id="info">
+        <h2 class="title_hide">1</h2>
+        <div class="container">
+            <article>
+                <h2 class="title_hide">1</h2>
+                <div class="main_info">
+                    <p>Sortowanie – jeden z podstawowych problemów informatyki, polegający na uporządkowaniu zbioru danych względem pewnych 
+                        cech charakterystycznych każdego elementu tego zbioru. 
+                        Szczególnym przypadkiem jest sortowanie względem wartości każdego elementu, np. sortowanie liczb, słów itp.</p>
+                        <br>
+                        <p>
+                        Sortowanie bąbelkowe jest jednym z najprostszych w implementacji algorytmów porządkujących dane.
+                        Nazwa wzięła się stąd, że dane podczas sortowania - tak jak bąbelki w napoju gazowanym - przemieszczają się do prawej stronie i układają się w odpowiednim szyku.
+                        <br>
+                        <br>
+                        Algorytm działa następująco:
+                        <br>
+                        w każdym przejściu pętli wewnętrznej porównywane są ze sobą dwie kolejne wartości i w 
+                        razie potrzemy są zamieniane miejscami. W jednym cyklu pętli wewnętrznej, największa 
+                        liczba (tak jak bąbelki w napoju gazowanym) w zbiorze będzie się przemieszczała na ostatnią pozycję. 
+                        W ten sposób otrzymujemy podzbiór częściowo już posortowany. 
+                        Czynności te powtarzamy dla zbioru pominiętego o elementy już poukładane.    
+                        </p>
+                        <br>
+                        <br>
+                </div>
+            </article>  
+
+            <h2 class="h2_active" id="visualisation">Wizualizacja sortowania</h2>
+            <div class="sort_wrapper">
+                <label class="generate_text" for="generate">Podaj ilość elementów (5 - 20)</label>
+                <input type="text" name="generate" id="generate">
+                <button class="btn" id="btn_generate">Zgeneruj</button>
+                <button class="btn" id="btn_sort">Sortuj</button>
+                <div class="speed_block">
+                    <label class="speed_text" for="sortSpeed">Szybkość sortowania</label>
+                    <input type="range" id="sortSpeed" name="sortSpeed"
+                           min="1" max="10">               
+                </div>                
+            </div>
+        
+            <div class="flex_block">
+                <div class="canvas_block">
+                    <canvas id="myCanvas" width="810" height="400"></canvas>
+                </div>
+                <div class="res_block">
+                </div>
+            </div>
+            <div class="speed_block">
+
+                
+              </div>
+
+            <div class="implementation" id="implementation">
+                <h2 class="h2_active">Implementacja</h2>
+                <p>
+                    Poniżej przedstawiona implementacja algorytmu w róznych językach programowania.
+                </p>
+                <div class="tab">
+                    <div class="tab-panel" data-tabpanel>
+                        <div class="tab-item tab-item--active">Pseudokod</div>
+                        <div class="tab-item">C++</div>
+                        <div class="tab-item">JAVA</div>
+                        <div class="tab-item">Python</div>
+                        <div class="tab-item">PHP</div>
+                    </div>
+                    <div class="tab-content tab-content--active">
+                        <span>BubleSort(A)</span>
+                        <pre>
+                            <code>
+        1. begin
+        2.      for i &#8592; to length[A] - 1 do
+        3.          for j &#8592; to length[A] - i - 1 do
+        4.              if A[j] > A[j+1] then
+        5.                  zamień A[j] &#8644; A[j+1]
+        6.end
+                            </code>
+                        </pre>
+                    </div>
+    
+                    <div class="tab-content">
+                        <pre><code>
+        #include &lt;iostream&gt; 
+        <span>using namespace</span> std; 
+    
+        <span>void</span> swap(<span class="variables">int</span> *xp, <span class="variables">int</span>  *yp)  {  
+            <span class="variables">int</span>  temp = *xp;  
+            *xp = *yp;  
+            *yp = temp;  
+        }  
+     
+        <span>void</span> bubbleSort(<span class="variables">int</span>  arr[ ], <span class="variables">int</span>  n)  {   
+            <span>for</span> (<span class="variables">int</span>  i = 0; i &lt; n-1; i++) {      
+                <span>for</span> (<span class="variables">int</span>  j = 0; j &lt; n-i-1; j++) {  
+                    <span>if</span> (arr[j] &gt; arr[j+1])  
+                        swap(&arr[j], &arr[j+1]);
+                }
+            }  
+        }  
+    
+        <span>void</span> printArray(<span class="variables">int</span>  arr[], <span class="variables">int</span>  size)  {   
+            <span>for</span> (<span class="variables">int</span>  i = 0; i &lt; size; i++)  
+                cout &lt;&lt; arr[i] &lt;&lt; " ";  
+            cout &lt;&lt; endl;  
+        }  
+        
+        <span class="variables">int</span>  main()  
+        {  
+            <span class="variables">int</span>  arr[] = {64, 34, 25, 12, 22, 11, 90};  
+            <span class="variables">int</span>  n =  <span>sizeof</span>(arr)/<span>sizeof</span>(arr[0]);  
+            bubbleSort(arr, n);  
+            cout&lt;&lt;"Posortowana tablica: \n";  
+            printArray(arr, n);  
+            <span>return</span> 0;  
+        } 
+    
+        /*
+        Posortowana tablica:
+        11 12 22 25 34 64 90
+        */</code></pre>
+                    </div>
+    
+                    <div class="tab-content">
+    <pre><code>
+        <span>class</span> BubbleSort { 
+            <span>void</span> bubbleSort(<span class="variables">int</span> arr[]) { 
+                <span class="variables">int</span> n = arr.length; 
+                <span>for</span> (<span class="variables">int</span> i = 0; i &lt; n-1; i++) { 
+                    <span>for</span> (<span class="variables">int</span> j = 0; j &lt; n-i-1; j++) { 
+                        <span>if</span> (arr[j] &gt; arr[j+1]) { 
+                            <span class="variables">int</span> temp = arr[j]; 
+                            arr[j] = arr[j+1]; 
+                            arr[j+1] = temp; 
+                        }
+                    }
+                }
+    
+            } 
+          
+            <span>void</span> printArray(int arr[]) { 
+                <span class="variables">int</span> n = arr.length; 
+                <span>for</span> (<span class="variables">int</span> i=0; i &lt; n; ++i) 
+                    System.out.print(arr[i] + " "); 
+                System.out.println(); 
+            } 
+          
+            <span>public static void</span> main(String args[]) { 
+                BubbleSort ob = new BubbleSort(); 
+                <span class="variables">int</span> arr[] = {64, 34, 25, 12, 22, 11, 90}; 
+                ob.bubbleSort(arr); 
+                System.out.println("Posortowana tablica:"); 
+                ob.printArray(arr); 
+            } 
+        }
+    
+        /*
+        Posortowana tablica:
+        11 12 22 25 34 64 90
+        */     
+    </code></pre>
+                    </div>
+                    <div class="tab-content">
+    <pre><code>
+        <span>def</span> bubbleSort(arr): 
+        n = <span class="python">len</span>(arr)  
+        <span>for</span> i <span>in</span> <span class="python">range</span>(n): 
+            <span>for</span> j <span>in</span> <span class="python">range</span>(0, n-i-1): 
+                <span>if</span> arr[j] &gt; arr[j+1] : 
+                    arr[j], arr[j+1] = arr[j+1], arr[j] 
+      
+        arr = [64, 34, 25, 12, 22, 11, 90] 
+    
+        bubbleSort(arr) 
+      
+        <span class="python">printf</span> ("Posortowana tablica: ") 
+        <span>for</span> i <span>in</span> <span class="python">range</span>(<span class="python">len</span>(arr)): 
+        <span class="python">printf</span>  ("%d" %arr[i])
+    
+        /*
+        Posortowana tablica:
+        11 12 22 25 34 64 90
+        */     
+    </code></pre>
+                    </div>
+                    <div class="tab-content">
+    <pre><code>
+        &lt;&#65110;php  
+        <span>function</span> bubbleSort(&<span class="variables">$arr</span>) 
+        { 
+            <span class="variables">$n</span> = sizeof(<span class="variables">$arr</span>); 
+          
+            <span>for</span> (<span class="variables">$i</span> = 0; <span class="variables">$i</span> &lt; <span class="variables">$n</span>; <span class="variables">$i</span>++) { 
+                <span>for</span> (<span class="variables">$j</span> = 0; <span class="variables">$j</span>  &lt; <span class="variables">$n</span> - <span class="variables">$i</span>  - 1; <span class="variables">$j</span> ++) { 
+                    <span>if</span> (<span class="variables">$arr</span>[<span class="variables">$j</span> ] &gt; <span class="variables">$arr</span>[<span class="variables">$j</span> +1]) { 
+                        $t = <span class="variables">$arr</span>[<span class="variables">$j</span> ]; 
+                        <span class="variables">$arr</span>[<span class="variables">$j</span> ] = <span class="variables">$arr</span>[<span class="variables">$j</span> +1]; 
+                        <span class="variables">$arr</span>[<span class="variables">$j</span> +1] = $t; 
+                    } 
+                } 
+            } 
+        } 
+          
+        <span class="variables">$arr</span> = <span>array</span>(64, 34, 25, 12, 22, 11, 90); 
+          
+        <span class="variables">$len</span> = sizeof(<span class="variables">$arr</span>); 
+        bubbleSort(<span class="variables">$arr</span>); 
+          
+        <span class="python">echo</span> "Posortowana tablica: \n"; 
+          
+        <span>for</span> (<span class="variables">$i</span> = 0; <span class="variables">$i</span> &lt; <span class="variables">$len</span>; <span class="variables">$i</span>++) 
+        <span class="python">echo</span> $arr[<span class="variables">$i</span>]." ";  
+          
+        ?> 
+    
+        /*
+        Posortowana tablica:
+        11 12 22 25 34 64 90
+        */     
+    </code></pre>
+                    </div>
+                 </div>
+            </div>
+
+            <h2 class="h2_active" id="complexity">Złożoność oraz czas</h2>     
+            <div class="calc_block">
+                <p>
+                    Algorytm wykonuje <i>n-1</i> przejść, a w każdym przejściu 
+                    wykonuje <i>n-k</i> porównań  <i>(gdzie k = 1, 2 ... n-1 to numer przejścia)</i>, przez 
+                    co jego teoretyczna złożoność czasowa wynosi <i>O(n <sup>2</sup>). </i>W podstawowej wersji algorytmu nie można tego czasu skrócić, a każda permutacja powoduje, że algorytm jest wykonywany w czasie pesymistycznym.
+                </p>
+                <br>
+                <br>
+                <div class="calc_wrapper">
+                    <label class="calc_text" for="arraySize">Podaj rozmiar tablicy (2 - 120 000)</label>
+                    <br>
+                    <div class="calc_form">
+                        <input type="text" name="arraySize" id="arraySize">     
+                        <button class="btn" id="btn_calc">Calc</button>
+                    </div>
+                    <div class="time_block"></div>
+                    <div class="compare_block"></div>
+                    <div class="copies_block"></div>
+        
+                </div>
+            </div>
+
+            <div class="video_block">
+            <p>Poniższy film pomoże jeszcze lepiej zrozumieć algorytm.</p>           
+            <div class="bs_video">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/lyZQPjUT5B4"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer_divider footer_divider-1"></div>
+        <div class="footer_social">
+            <a href="https://www.facebook.com/vadim.semkovych/" class="footer_social_item">
+                <img src="./img/facebook-f-brands.svg" alt="facebook">
+            </a>
+            <a href="https://www.instagram.com/vadimsem1/" class="footer_social_item">
+                <img src="./img/instagram-square-brands.svg" alt="instagram">
+            </a>
+            <a href="https://github.com/Karambusz" class="footer_social_item">
+                <img src="./img/github-square-brands.svg" alt="github">
+            </a>
+        </div>
+        <div class="footer_divider"></div>
+        <div class="footer_copy_right">WFiIS Techniki Internetowe 2020/2021 &copy; Copyright Vadym Semkovych</div>
+    </footer>
+
+    <a href="#up" class="pageup">
+		<svg class="up" viewBox="0 0 26 26" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+			<path fill-rule="evenodd" clip-rule="evenodd" d="M26 0H0V26H26V0ZM4.6593 17.7519L13.1233 10.33L21.5873 17.7519L22.9059 16.2481L13.7826 8.24813L13.1233 7.67L12.464 8.24813L3.3407 16.2481L4.6593 17.7519Z" fill="black"/>
+		</svg>
+	</a>
+
+    <script src="script.js"> </script>
+</body>
+</html>
