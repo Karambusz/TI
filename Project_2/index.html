@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ankieta</title>
+    <link rel="stylesheet" href="style.css">
+    <script src='rest.js'></script>
+</head>
+<body>
+    <div class="container">
+        <section class="header">
+            <header>
+               <h1>Ankieta dla absolwentów uczelni wyższych</h1>
+                <nav>
+                    <div class="menu-wrapper">
+
+                        <!-- <div><button class="btn">Pokaż wyniki</button></div> -->
+                        <!-- <div></div> -->
+                    </div>
+                </nav>
+            </header>
+        </section>
+
+        <section class="content">
+            <div class="main-content">
+                <div class="questionnaire">
+                    <div class="questionnaire-wrapper">
+                        <p>1. Przoszę podać płeć</p>
+                        <div class="wrapper-item">
+                            <input type="radio" id="woman" name="sex" value="kobieta">
+                            <label for="woman">Kobieta</label>
+                        </div>
+                        <div class="wrapper-item">
+                            <input type="radio" id="man" name="sex" value="mężczyzna">
+                            <label for="man">Mężczyzna</label>
+                        </div>
+
+                        <p>2. Jaki tytuł Pan/i uzyskał/a?</p>
+                        <div class="wrapper-item">
+                            <input type="radio" id="licentiate" name="degree" value="lic">
+                            <label for="licentiate">Licencjat</label>
+                        </div>
+                        <div class="wrapper-item">
+                            <input type="radio" id="engineer" name="degree" value="inż">
+                            <label for="engineer">Inżynier</label>
+                        </div>
+                        <div class="wrapper-item">
+                            <input type="radio" id="master" name="degree" value="mgr">
+                            <label for="master">Magister</label>
+                        </div>
+                        <div class="wrapper-item">
+                            <input type="radio" id="doctor" name="degree" value="dr">
+                            <label for="doctor">Doktor</label>
+                        </div>
+
+                        <p>3. Czy uczelnia jest pomocna w rozwoju Waszej kariery zawodowej?</p>
+                        <div class="wrapper-item">
+                            <input type="radio" id="help_yes" name="help" value="tak">
+                            <label for="help_yes">Tak</label>
+                        </div>
+                        <div class="wrapper-item">
+                            <input type="radio" id="help_no" name="help" value="nie">
+                            <label for="engineer">Nie</label>
+                        </div>
+
+                        <p>4. Proszę określić stopień zadowolenia ze studiów wyższych</p>
+                        <div class="wrapper-item">
+                            <input type="radio" id="vhappy" name="satisfaction" value="Bardzo zadowolony/a">
+                            <label for="vhappy">Bardzo zadowolony/a</label>
+                        </div>
+                        <div class="wrapper-item">
+                            <input type="radio" id="happy" name="satisfaction" value="Zadowolony/a">
+                            <label for="happy">Zadowolony/a</label>
+                        </div>
+                        <div class="wrapper-item">
+                            <input type="radio" id="dissatisfied" name="satisfaction" value="Niezadowolony/a">
+                            <label for="dissatisfied">Niezadowolony/a</label>
+                        </div>
+                        <div class="wrapper-item">
+                            <input type="radio" id="vdissatisfied" name="satisfaction" value="Bardzo niezadowolony/a">
+                            <label for="vdissatisfied">Bardzo niezadowolony/a</label>
+                        </div>
+                    </div>
+                </div>  
+
+                <!-- <div class="registration" style="display: none;">
+                    <p>Rejestracja</p>
+                    <form method="POST">
+                        <label for="email">E-mail</label>
+                        <input type="text" placeholder="Wpisz e-mail" name="regemail" required>
+                    
+                        <label for="psw">Hasło</label>
+                        <input type="password" placeholder="Podaj hasło" name="regpsw" required>
+                        <div class="btn-input">
+                            <input class="btn" type='button' value='Zarejestruj' onclick="">
+                        </div>
+                    </form>   
+                </div>   
+
+                <div class="login" style="display: none;">
+                    <p>Logowanie</p>
+                    <form method="POST">
+                        <label for="email">E-mail</label>
+                        <input type="text" placeholder="Wpisz e-mail" name="logemail" required>
+                    
+                        <label for="psw">Hasło</label>
+                        <input type="password" placeholder="Podaj hasło" name="logpsw" required>
+                        <div class="btn-input">
+                            <input class="btn" type='button' value='Zaloguj' onclick="userLogin()">
+                        </div>
+                    </form>
+                    <p class="error"></p>   
+                </div>  -->
+
+            </div>
+        </section>
+    </div>
+
+</body>
+</html>

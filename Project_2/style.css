@@ -1,0 +1,115 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap&subset=cyrillic-ext);
+
+* {
+    box-sizing: border-box; 
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {  
+    background: rgb(58,180,119);
+    background: linear-gradient(90deg, rgba(58,180,119,1) 0%, rgba(29,132,253,1) 50%, rgba(222,69,252,1) 100%);
+}
+
+
+.container {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 42px;
+    color:khaki;
+}
+
+.menu-wrapper {
+    width: 700px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn {
+    text-align: center;
+    font-size: 18px;
+    text-decoration: none;
+    margin: 2px 0;
+    border: solid 1px transparent;
+    border-radius: 4px;
+    padding: 0.5em 1em;
+    color: #ffffff;
+    background-color: #9555af;
+ }
+
+ .btn:active {
+    transform: translateY(1px);
+    filter: saturate(150%);
+ }
+
+ .btn:hover {
+    color: #9555af;
+    border-color: currentColor;
+    background-color: white;
+    cursor: pointer;
+ }
+
+.main-content {
+    width: 800px;
+    min-height: 600px;
+    margin: 0 auto;
+}
+
+.questionnaire, .registration, .login {
+    width: 400px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.questionnaire-wrapper {
+    width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.questionnaire-wrapper, .registration, .login p {
+    width: 400px;
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.questionnaire-wrapper .wrapper-item {
+    width: 160px;
+    font-size: 18px;
+    text-align: left;
+}
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.btn-input {
+    width: 120px;
+    margin: 0 auto;
+}
+
+
+p.error {
+    color: #8a2c2c;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+
+
