@@ -112,5 +112,32 @@ p.error {
     text-align: center;
 }
 
+table {
+    width: 600px;
+    height: auto;
+    border: 2px solid rgba(3, 43, 219, 0.829);
+    border-collapse: collapse;
+}
+
+td {
+    text-align: center;
+}
+
+th {
+    text-align: center;
+}
+
+.row__cyan {
+    background-color: cyan;
+}
+
+.row__green {
+    background-color: rgb(57, 240, 57);
+}
+
+
+
+
+
 
 

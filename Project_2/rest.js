@@ -11,7 +11,7 @@ window.addEventListener("DOMContentLoaded", ()=> {
         document.querySelector(".menu-wrapper").innerHTML = 
         `
          <div><button class="btn btn-questionnaire">Ankieta</button></div>
-         <div><button class="btn">Dane offline</button></div>
+         <div><button class="btn btn-offline">Dane offline</button></div>
          <div><button class="btn btn-registration">Rejestracja</button></div>
          <div><button class="btn btn-login">Logowanie</button></div>
         `;
@@ -44,21 +44,30 @@ window.onload = function() {
         }      
     });
 
-    document.querySelector(".main-content").addEventListener("click", (e)=> {
-        if(e.target && e.target.classList.contains("btn-send")) {
-            let check = validateRadioButtons();
-            if(check && navigator.onLine == true && checkCookie().length > 0) {
-                console.log("Online send");
-            }
-            if(check && navigator.onLine == false) {
-                console.log("Offline send");
-            }
-            if(check && checkCookie()== "") {
-                console.log("Offline send");
-            }    
+    document.querySelector(".menu-wrapper").addEventListener("click", (e)=> {
+        if(e.target && e.target.classList.contains("btn-offline")) {  
+            showOffline();
+            console.log("click dane offline");
         }      
     });
+
+    // document.querySelector(".main-content").addEventListener("click", (e)=> {
+    //     if(e.target && e.target.classList.contains("btn-send")) {
+    //         let check = validateRadioButtons();
+    //         if(check && navigator.onLine == true && checkCookie().length > 0) {
+    //             console.log("Online send");
+    //         }
+    //         if(check && navigator.onLine == false) {
+    //             console.log("Offline send");
+    //         }
+    //         if(check && checkCookie()== "") {
+    //             console.log("Offline send");
+    //         }    
+    //     }      
+    // });
 }
+
+let localDbIndex = 0;
 
 
 function checkCookie() {
@@ -104,73 +113,79 @@ function uncheckedButtons(arr) {
 }
 
 function getQuestionnaire() {
-    return `
+    let res = `
     <div class="questionnaire">
-        <form method="POST">
-            <div class="questionnaire-wrapper">
-                <p>1. Przoszę podać płeć</p>
-                <div class="wrapper-item">
-                    <input type="radio" id="woman" name="gender" value="kobieta">
-                    <label for="woman">Kobieta</label>
-                </div>
-                <div class="wrapper-item">
-                    <input type="radio" id="man" name="gender" value="mężczyzna">
-                    <label for="man">Mężczyzna</label>
-                </div>
-
-                <p>2. Jaki tytuł Pan/i uzyskał/a?</p>
-                <div class="wrapper-item">
-                    <input type="radio" id="licentiate" name="degree" value="lic">
-                    <label for="licentiate">Licencjat</label>
-                </div>
-                <div class="wrapper-item">
-                    <input type="radio" id="engineer" name="degree" value="inż">
-                    <label for="engineer">Inżynier</label>
-                </div>
-                <div class="wrapper-item">
-                    <input type="radio" id="master" name="degree" value="mgr">
-                    <label for="master">Magister</label>
-                </div>
-                <div class="wrapper-item">
-                    <input type="radio" id="doctor" name="degree" value="dr">
-                    <label for="doctor">Doktor</label>
-                </div>
-
-                <p>3. Czy uczelnia jest pomocna w rozwoju Waszej kariery zawodowej?</p>
-                <div class="wrapper-item">
-                    <input type="radio" id="help_yes" name="help" value="tak">
-                    <label for="help_yes">Tak</label>
-                </div>
-                <div class="wrapper-item">
-                    <input type="radio" id="help_no" name="help" value="nie">
-                    <label for="engineer">Nie</label>
-                </div>
-
-                <p>4. Proszę określić stopień zadowolenia ze studiów wyższych</p>
-                <div class="wrapper-item">
-                    <input type="radio" id="vhappy" name="satisfaction" value="Bardzo zadowolony/a">
-                    <label for="vhappy">Bardzo zadowolony/a</label>
-                </div>
-                <div class="wrapper-item">
-                    <input type="radio" id="happy" name="satisfaction" value="Zadowolony/a">
-                    <label for="happy">Zadowolony/a</label>
-                </div>
-                <div class="wrapper-item">
-                    <input type="radio" id="dissatisfied" name="satisfaction" value="Niezadowolony/a">
-                    <label for="dissatisfied">Niezadowolony/a</label>
-                </div>
-                <div class="wrapper-item">
-                    <input type="radio" id="vdissatisfied" name="satisfaction" value="Bardzo niezadowolony/a">
-                    <label for="vdissatisfied">Bardzo niezadowolony/a</label>
-                </div>
-                <div class="wrapper-item">
-                    <input class="btn btn-send" type='button' value='Wyślij' style="display: block; margin:0 auto;">
-                </div> 
+    <form class="questionnaire-form" method="POST">
+        <div class="questionnaire-wrapper">
+            <p>1. Przoszę podać płeć</p>
+            <div class="wrapper-item">
+                <input type="radio" id="woman" name="gender" value="kobieta">
+                <label for="woman">Kobieta</label>
             </div>
-            <p class="error"></p>     
-        </form> 
-    </div> 
-    `;
+            <div class="wrapper-item">
+                <input type="radio" id="man" name="gender" value="mężczyzna">
+                <label for="man">Mężczyzna</label>
+            </div>
+
+            <p>2. Jaki tytuł Pan/i uzyskał/a?</p>
+            <div class="wrapper-item">
+                <input type="radio" id="licentiate" name="degree" value="lic">
+                <label for="licentiate">Licencjat</label>
+            </div>
+            <div class="wrapper-item">
+                <input type="radio" id="engineer" name="degree" value="inż">
+                <label for="engineer">Inżynier</label>
+            </div>
+            <div class="wrapper-item">
+                <input type="radio" id="master" name="degree" value="mgr">
+                <label for="master">Magister</label>
+            </div>
+            <div class="wrapper-item">
+                <input type="radio" id="doctor" name="degree" value="dr">
+                <label for="doctor">Doktor</label>
+            </div>
+
+            <p>3. Czy uczelnia jest pomocna w rozwoju Waszej kariery zawodowej?</p>
+            <div class="wrapper-item">
+                <input type="radio" id="help_yes" name="help" value="tak">
+                <label for="help_yes">Tak</label>
+            </div>
+            <div class="wrapper-item">
+                <input type="radio" id="help_no" name="help" value="nie">
+                <label for="engineer">Nie</label>
+            </div>
+
+            <p>4. Proszę określić stopień zadowolenia ze studiów wyższych</p>
+            <div class="wrapper-item">
+                <input type="radio" id="vhappy" name="satisfaction" value="Bardzo zadowolony/a">
+                <label for="vhappy">Bardzo zadowolony/a</label>
+            </div>
+            <div class="wrapper-item">
+                <input type="radio" id="happy" name="satisfaction" value="Zadowolony/a">
+                <label for="happy">Zadowolony/a</label>
+            </div>
+            <div class="wrapper-item">
+                <input type="radio" id="dissatisfied" name="satisfaction" value="Niezadowolony/a">
+                <label for="dissatisfied">Niezadowolony/a</label>
+            </div>
+            <div class="wrapper-item">
+                <input type="radio" id="vdissatisfied" name="satisfaction" value="Bardzo niezadowolony/a">
+                <label for="vdissatisfied">Bardzo niezadowolony/a</label>
+            </div>
+            <div class="wrapper-item">`
+            if (checkCookie() == "" || navigator.onLine == false) {
+                res+=`<input class="btn btn-send" type='button' value='Wyślij' style="display: block; margin:0 auto;" onclick="sendOffline()">`;
+            } else {
+                res+=`<input class="btn btn-send" type='button' value='Wyślij' style="display: block; margin:0 auto;">`; 
+            }
+                
+            res+=`</div> 
+                </div>
+                <p class="error"></p>     
+            </form> 
+        </div> `;
+    return res;
+    
 }
 
 function validateRadioButtons() {
@@ -193,10 +208,6 @@ function validateRadioButtons() {
 
     if (gen && ac && help && sat) {
         document.querySelector("p.error").innerHTML="All checked";
-        uncheckedButtons(genders);
-        uncheckedButtons(academicTitles);
-        uncheckedButtons(helpful);
-        uncheckedButtons(satisfaction);
         return true; 
     } else {
         document.querySelector("p.error").innerHTML="Proszę odpowiedzieć na wszystkie pytania!";
@@ -242,6 +253,26 @@ function getRegistration() {
     `;
 }
 
+function getTable() {
+    return `
+    <div class="table-wrapper" style="width: 600px; margin: 0 auto; margin-top: 20px;">
+        <table>
+            <thead>
+                <tr class="row__cyan">
+                    <th>Lp.</th>
+                    <th>Płeć</th>
+                    <th>Tytuł naukowy</th>
+                    <th>Uczelnia jest pomocna</th>
+                    <th>Stopień zadowolenia</th>
+                </tr>
+            </thead>
+            <tbody>                          
+            </tbody>
+        </table>
+    </div>
+    `;
+}
+
 
 
 function getRequestObject()      {
@@ -253,6 +284,87 @@ function getRequestObject()      {
        return (null) ;
     }
  }
+
+
+function addRow(row) {
+    let tmp = `<tr class="row__green">`;
+    for (var prop in row ) {
+        tmp += "<td>" + row[prop]+" </td>";      
+    }
+    tmp += "</tr>";
+    return tmp;
+}
+
+function showOffline() {
+    document.querySelector(".main-content").innerHTML = getTable();
+
+    const connection = window.indexedDB.open("AnkietaAbsolwentow", 4);
+    connection.onupgradeneeded = function (event) {
+        event.target.transaction.abort();
+        console.log(event);
+    };
+    connection.onsuccess = function (event) {
+        const db = event.target.result;
+        const transaction = db.transaction(['results'], "readonly");
+        const objectStore = transaction.objectStore('results');
+        const objectRequest = objectStore.getAll();
+        objectRequest.onerror = function (event) {
+            console.log("error");
+            console.log(event);
+        };
+ 
+        objectRequest.onsuccess = function (event) {
+            let rows = "";
+            objectRequest.result.forEach(element => {
+                rows += addRow(element);
+            });
+            document.querySelector(".main-content table tbody").innerHTML = rows;
+        };
+    }
+
+}
+
+
+function sendOffline() {
+    let check = validateRadioButtons();
+    if( (check && checkCookie()== "") || (check && navigator.onLine == false)) {
+        let queForm = document.querySelector(".questionnaire-form");
+        let answer = {};
+        answer.id = ++localDbIndex;
+        answer.gender = queForm.elements.gender.value;
+        answer.ac_title = queForm.elements.degree.value;
+        answer.is_helpful = queForm.elements.help.value;
+        answer.satisfaction = queForm.elements.satisfaction.value;
+
+    
+        const connection = window.indexedDB.open("AnkietaAbsolwentow", 4);
+        connection.onupgradeneeded = function (event) {
+            const db = event.target.result;
+            const objectStore = db.createObjectStore('results', {autoIncrement: true});
+            console.log(objectStore);
+        };
+        connection.onsuccess = function (event) {
+            const db = event.target.result;
+            const transaction = db.transaction('results', 'readwrite');
+            const objectStore = transaction.objectStore('results');
+            const objectRequest = objectStore.put(answer);
+            objectRequest.onerror = function (event) {
+                console.log("error");
+                console.log(event);
+         };
+    
+        objectRequest.onsuccess = function (event) {
+            console.log("success");
+        };
+        uncheckedButtons(document.querySelectorAll("[name = 'gender']"));
+        uncheckedButtons(document.querySelectorAll("[name = 'degree']"));
+        uncheckedButtons(document.querySelectorAll("[name = 'help']"));
+        uncheckedButtons(document.querySelectorAll("[name = 'satisfaction']"));
+        }
+    }
+}
+
+
 
 
 
@@ -335,6 +447,8 @@ function userLogin() {
                         setTimeout(()=> {
                             textError.style.display = "none";
                         }, 3000);
+                        indexedDB.deleteDatabase("AnkietaAbsolwentow");
+                        localDbIndex = 0;
                     }
                     else
                     textError.innerHTML = "Podałeś zły login lub  hasło, sprawdź swoje dane i sprobuj ponownie!";
@@ -365,7 +479,7 @@ function userLogout() {
                     document.querySelector(".menu-wrapper").innerHTML = 
                     `
                     <div><button class="btn btn-questionnaire">Ankieta</button></div>
-                    <div><button class="btn">Dane offline</button></div>
+                    <div><button class="btn btn-offline">Dane offline</button></div>
                     <div><button class="btn btn-registration">Rejestracja</button></div>
                     <div><button class="btn btn-login">Logowanie</button></div>
                     `;    
