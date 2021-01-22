@@ -47,11 +47,22 @@ window.onload = function() {
 
 
 function checkCookie() {
-    let arr = document.cookie.split("=");
-    if(arr[1].length > 0) {
-        return true;
-    } else {
+    if(document.cookie === undefined) {
         return false;
+    }
+    if(document.cookie.includes("sessionID") === false) {
+        return false;
+    }
+    let arr = document.cookie.split(";");
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i].includes("sessionID")) {
+            let session = arr[i].split("=");
+               if(session[1].length > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+        }
     }
 }
 
