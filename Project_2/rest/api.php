@@ -22,32 +22,7 @@ class API extends REST {
             $this->response('Page not found',404); }         
     }
          
-         
-    private function _save() {
-        if($this->get_request_method() != "POST") {
-            $this->response('',406);
-        }
- 
-        if(!empty($this->_request) ){
-            try {
-                   $json_array = json_decode($this->_request,true);
-                   $res = $this->db->insert($json_array);
-                   if ( $res ) {
-                   $result = array('return'=>'ok');
-                   $this->response($this->json($result), 200);
-                     } else {
-                        $result = array('return'=>'not added');
-                        $this->response($this->json($result), 200);
-                     }
-            } catch (Exception $e) {
-                $this->response('', 400) ;
-            }
-        } else {
-            $error = array('status' => "Failed", "msg" => "Invalid send data");
-            $this->response($this->json($error), 400);
-        }
-    }
- 
+          
     private function _list(){   
         if($this->get_request_method() != "GET"){
             $this->response('',406);
@@ -59,6 +34,30 @@ class API extends REST {
     private function json($data){
         if(is_array($data)){
             return json_encode($data);
+        }
+    }
+
+    private function _save() {
+        if($this->get_request_method() != "POST") {
+            $this->response('',406);
+        }
+        if(!empty($this->_request) ){
+            try {
+                   $json_array = json_decode($this->_request,true);
+                   $res = $this->db->insert($json_array);
+                   if ( $res ) {
+                        $result = array('status'=>'OK', "msg" => "Answers added");
+                        $this->response($this->json($result), 200);
+                    } else {
+                        $result = array('status'=>'Failed', "msg" => "Answers not added");
+                        $this->response($this->json($result), 200);
+                    }
+            } catch (Exception $e) {
+                $this->response('', 400) ;
+            }
+        } else {
+            $error = array('status' => "Failed", "msg" => "Invalid send data");
+            $this->response($this->json($error), 400);
         }
     }
 
@@ -98,11 +97,11 @@ class API extends REST {
                 $json_array = json_decode($this->_request,true);                    
                 $res = $this->db->register($json_array);
                 if ($res) {
-                    $result = array('status'=>'OK', "msg" => "Added");
+                    $result = array('status'=>'OK', "msg" => "User added");
                     $this->response($this->json($result), 200);
                 } 
                 else {
-                    $result = array('status'=>'Failed', "msg" => "Not added");
+                    $result = array('status'=>'Failed', "msg" => "User not added");
                     $this->response($this->json($result), 200);
                 } 
             } 

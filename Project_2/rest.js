@@ -176,7 +176,7 @@ function getQuestionnaire() {
             if (checkCookie() == "" || navigator.onLine == false) {
                 res+=`<input class="btn btn-send" type='button' value='Wyślij' style="display: block; margin:0 auto;" onclick="sendOffline()">`;
             } else {
-                res+=`<input class="btn btn-send" type='button' value='Wyślij' style="display: block; margin:0 auto;">`; 
+                res+=`<input class="btn btn-send" type='button' value='Wyślij' style="display: block; margin:0 auto;" onclick="sendOnline()">`; 
             }
                 
             res+=`</div> 
@@ -288,7 +288,7 @@ function getRequestObject()      {
 
 function addRow(row) {
     let tmp = `<tr class="row__green">`;
-    for (var prop in row ) {
+    for (let prop in row ) {
         tmp += "<td>" + row[prop]+" </td>";      
     }
     tmp += "</tr>";
@@ -360,10 +360,46 @@ function sendOffline() {
         uncheckedButtons(document.querySelectorAll("[name = 'degree']"));
         uncheckedButtons(document.querySelectorAll("[name = 'help']"));
         uncheckedButtons(document.querySelectorAll("[name = 'satisfaction']"));
+        document.querySelector("p.error").innerHTML = "Dane zostały dodane do lokalnej bazy danych";
         }
     }
 }
 
+function sendOnline() {
+    let check = validateRadioButtons();
+    if(check && navigator.onLine == true && checkCookie().length > 0) {
+        let queForm = document.querySelector(".questionnaire-form");
+        let answer = {};
+        answer.email = checkCookie();
+        answer.gender = queForm.elements.gender.value;
+        answer.ac_title = queForm.elements.degree.value;
+        answer.is_helpful = queForm.elements.help.value;
+        answer.satisfaction = queForm.elements.satisfaction.value;
+        let txt = JSON.stringify(answer);
+        let req = getRequestObject(); 
+        console.log(txt);
+        if (navigator.onLine) {
+            req.open("POST", "http://localhost:81/~8semkovych/projekt2/rest/save", true);
+            req.onreadystatechange = function() {
+                if(req.readyState == 4 && req.status == 200) {
+                    objJSON = JSON.parse(req.response);
+                    if (objJSON['status'] == 'OK') {
+                        document.querySelector("p.error").innerHTML = "Dane zostały dodane do bazy"
+                        uncheckedButtons(document.querySelectorAll("[name = 'gender']"));
+                        uncheckedButtons(document.querySelectorAll("[name = 'degree']"));
+                        uncheckedButtons(document.querySelectorAll("[name = 'help']"));
+                        uncheckedButtons(document.querySelectorAll("[name = 'satisfaction']"));                   
+                    } else {
+                        document.querySelector("p.error").innerHTML = "Już dodałeś swoje odpowiedzi do bazy"; 
+                    }                    
+                }    
+            }
+            req.send(txt);
+        } else {
+            document.querySelector("p.error").innerHTML = "Jesteś w trybie offline."; 
+        }
+    }     
+}
 
 
 
@@ -482,7 +518,8 @@ function userLogout() {
                     <div><button class="btn btn-offline">Dane offline</button></div>
                     <div><button class="btn btn-registration">Rejestracja</button></div>
                     <div><button class="btn btn-login">Logowanie</button></div>
-                    `;    
+                    `; 
+                    document.querySelector(".main-content").innerHTML = getQuestionnaire();   
                 }
             }
         }

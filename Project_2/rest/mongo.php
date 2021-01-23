@@ -9,15 +9,18 @@
     private $host = "172.20.44.25";
     private $base = "8semkovych";
     private $usercoll = "users";
+    private $questionnairecoll = "questionnaire";
     private $conn;
     private $dbase;
     private $usercollection;
+    private $questionnairecollection;
   
   
   
     function __construct() {
        $this->conn = new MongoDB\Client("mongodb://{$this->user}:{$this->pass}@{$this->host}/{$this->base}");    
        $this->usercollection = $this->conn->{$this->base}->{$this->usercoll};
+       $this->questionnairecollection = $this->conn->{$this->base}->{$this->questionnairecoll};
      }
 
      public function register($user){
@@ -51,14 +54,22 @@
       return true;
   }
   
-     function select() {
+    function select() {
        $cursor = $this->collection->find();
        $table = iterator_to_array($cursor);
        return $table ;
-     }
+    }
   
-     function insert($user) {
-       $ret = $this->collection->insertOne($user) ;
-       return $ret;
-     }
+    function insert($answer) {
+        $id = $answer['email'];
+        $cursor = $this->questionnairecollection->find();
+        foreach ($cursor as $doc) {
+          if($doc['email'] == $id) {
+            return false;
+          }          
+        }
+       $this->questionnairecollection->insertOne($answer) ;
+        //return $ret;
+        return true;
+    }
  }
