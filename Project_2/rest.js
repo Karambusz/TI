@@ -4,7 +4,7 @@ window.addEventListener("DOMContentLoaded", ()=> {
         document.querySelector(".menu-wrapper").innerHTML = 
         `
         <div><button class="btn btn-questionnaire">Ankieta</button></div>
-        <div><button class="btn">Pokaż wyniki</button></div>
+        <div><button class="btn btn-online">Pokaż wyniki</button></div>
         <div><button class="btn btn-logout" onclick="userLogout()">Wyloguj się</button></div>
         `;   
     } else {
@@ -51,66 +51,15 @@ window.onload = function() {
         }      
     });
 
-    // document.querySelector(".main-content").addEventListener("click", (e)=> {
-    //     if(e.target && e.target.classList.contains("btn-send")) {
-    //         let check = validateRadioButtons();
-    //         if(check && navigator.onLine == true && checkCookie().length > 0) {
-    //             console.log("Online send");
-    //         }
-    //         if(check && navigator.onLine == false) {
-    //             console.log("Offline send");
-    //         }
-    //         if(check && checkCookie()== "") {
-    //             console.log("Offline send");
-    //         }    
-    //     }      
-    // });
+    document.querySelector(".menu-wrapper").addEventListener("click", (e)=> {
+        if(e.target && e.target.classList.contains("btn-online")) {  
+            showOnline();
+            console.log("click dane online");
+        }      
+    });
 }
 
 let localDbIndex = 0;
-
-
-function checkCookie() {
-    if(document.cookie === undefined) {
-        return "";
-    }
-    if(document.cookie.includes("sessionID") === false) {
-        return "";
-    }
-    let arr = document.cookie.split(";");
-    for (let i = 0; i < arr.length; i++) {
-        if (arr[i].includes("sessionID")) {
-            let session = arr[i].split("=");
-               if(session[1].length > 0) {
-                    return session[1];
-                } else {
-                    return "";
-                }
-        }
-    }
-}
-
-
-
-function validateEmail(email) {
-        var re = /\S+@\S+\.\S+/;
-        return re.test(email);
-}
-
-function validateRadioGroup(arr, pred) {
-    for (let i = 0; i < arr.length; i++) {
-        if(arr[i].checked) {
-            pred = true;
-        }    
-    }    
-    return pred;
-}
-
-function uncheckedButtons(arr) {
-    for (let i = 0; i < arr.length; i++) {
-        arr[i].checked = false;
-    }
-}
 
 function getQuestionnaire() {
     let res = `
@@ -188,33 +137,6 @@ function getQuestionnaire() {
     
 }
 
-function validateRadioButtons() {
-    const genders = document.querySelectorAll("[name = 'gender']"), 
-            academicTitles =  document.querySelectorAll("[name = 'degree']"),
-            helpful = document.querySelectorAll("[name = 'help']"),
-            satisfaction = document.querySelectorAll("[name = 'satisfaction']");
-
-            console.log(genders);
-
-    let gen = false,
-        ac = false;
-        help = false;
-        sat = false;
-
-        gen = validateRadioGroup(genders, gen);
-        ac = validateRadioGroup(academicTitles, ac);
-        help = validateRadioGroup(helpful, help);
-        sat = validateRadioGroup(satisfaction, sat);
-
-    if (gen && ac && help && sat) {
-        document.querySelector("p.error").innerHTML="All checked";
-        return true; 
-    } else {
-        document.querySelector("p.error").innerHTML="Proszę odpowiedzieć na wszystkie pytania!";
-        return false;
-    }
-}
-
 function getLogin() {
     return `
     <div class="login">
@@ -273,7 +195,96 @@ function getTable() {
     `;
 }
 
+function getCanvas() {
+    return `
+    <div class="first-canvas">
+        <div id="first">
 
+        </div>
+    </div>
+    <div class="second-canvas">
+        <div id="second">
+
+        </div>
+    </div>
+    <div class="third-canvas">
+        <div id="third">
+
+        </div>
+    </div>
+    `;
+}
+
+
+
+function checkCookie() {
+    if(document.cookie === undefined) {
+        return "";
+    }
+    if(document.cookie.includes("sessionID") === false) {
+        return "";
+    }
+    let arr = document.cookie.split(";");
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i].includes("sessionID")) {
+            let session = arr[i].split("=");
+               if(session[1].length > 0) {
+                    return session[1];
+                } else {
+                    return "";
+                }
+        }
+    }
+}
+
+
+
+function validateEmail(email) {
+        var re = /\S+@\S+\.\S+/;
+        return re.test(email);
+}
+
+function validateRadioGroup(arr, pred) {
+    for (let i = 0; i < arr.length; i++) {
+        if(arr[i].checked) {
+            pred = true;
+        }    
+    }    
+    return pred;
+}
+
+function uncheckedButtons(arr) {
+    for (let i = 0; i < arr.length; i++) {
+        arr[i].checked = false;
+    }
+}
+
+function validateRadioButtons() {
+    const genders = document.querySelectorAll("[name = 'gender']"), 
+            academicTitles =  document.querySelectorAll("[name = 'degree']"),
+            helpful = document.querySelectorAll("[name = 'help']"),
+            satisfaction = document.querySelectorAll("[name = 'satisfaction']");
+
+            console.log(genders);
+
+    let gen = false,
+        ac = false;
+        help = false;
+        sat = false;
+
+        gen = validateRadioGroup(genders, gen);
+        ac = validateRadioGroup(academicTitles, ac);
+        help = validateRadioGroup(helpful, help);
+        sat = validateRadioGroup(satisfaction, sat);
+
+    if (gen && ac && help && sat) {
+        document.querySelector("p.error").innerHTML="All checked";
+        return true; 
+    } else {
+        document.querySelector("p.error").innerHTML="Proszę odpowiedzieć na wszystkie pytania!";
+        return false;
+    }
+}
 
 function getRequestObject()      {
     if ( window.ActiveXObject)  {
@@ -283,7 +294,7 @@ function getRequestObject()      {
     } else {
        return (null) ;
     }
- }
+}
 
 
 function addRow(row) {
@@ -324,6 +335,143 @@ function showOffline() {
 
 }
 
+const getResource = async (url) => { // async code
+    const res = await fetch(url);
+
+    if (!res.ok) {
+        throw prompt(new Error(`Could not fetch ${url}, status: ${res.status}`));
+    }
+
+    return await res.json(); // parses JSON response into native JavaScript objects
+};
+
+function showOnline() {
+    let womanEn = 0,
+        manEn = 0,
+        womanLic = 0,
+        manLic = 0,
+        womanMas = 0,
+        manMas = 0,
+        womanDr = 0,
+        manDr = 0,
+        helpfulYes = 0,
+        helpfulNo = 0,
+        vHappy = 0,
+        happy = 0,
+        vDis = 0,
+        dis = 0;
+    document.querySelector(".main-content").innerHTML = getCanvas();
+    console.log(document.getElementById("first-canvas"));     
+
+
+    getResource('http://pascal.fis.agh.edu.pl/~8semkovych/projekt2/rest/list')
+        .then(data => {
+            let objJSON = data;
+            womanEn = objJSON.filter(woman => woman.gender === "kobieta" && woman.ac_title === "inż").length;
+            manEn = objJSON.filter(man => man.gender === "mężczyzna" && man.ac_title === "inż").length;
+            womanLic = objJSON.filter(woman => woman.gender === "kobieta" && woman.ac_title === "lic").length;
+            manLic = objJSON.filter(man => man.gender === "mężczyzna" && man.ac_title === "lic").length;
+            womanMas = objJSON.filter(woman => woman.gender === "kobieta" && woman.ac_title === "mgr").length;
+            manMas = objJSON.filter(man => man.gender === "mężczyzna" && man.ac_title === "mgr").length;
+            womanDr = objJSON.filter(woman => woman.gender === "kobieta" && woman.ac_title === "dr").length;
+            manDr = objJSON.filter(man => man.gender === "mężczyzna" && man.ac_title === "dr").length;
+            helpfulYes = objJSON.filter(help => help.is_helpful === "tak").length;
+            helpfulNo = objJSON.filter(help => help.is_helpful === "nie").length;
+            vHappy = objJSON.filter(sat => sat.satisfaction === "Bardzo zadowolony/a").length;
+            happy = objJSON.filter(sat => sat.satisfaction === "Zadowolony/a").length;
+            dis = objJSON.filter(sat => sat.satisfaction === "Niezadowolony/a").length;
+            vDis = objJSON.filter(sat => sat.satisfaction === "Bardzo niezadowolony/a").length;
+            
+            let sum = vHappy + happy + dis + vDis;
+
+            let chart1 = new CanvasJS.Chart("first");
+
+            chart1.options.title = { text: "Tytuł/płeć" };
+        
+            let series1 = { 
+                type: "column",
+                name: "Mężczyźni",
+                showInLegend: true
+            };
+        
+            let series2 = { 
+                type: "column",
+                name: "Kobiety",
+                showInLegend: true
+            };
+        
+            chart1.options.data = [];
+            chart1.options.data.push(series1);
+            chart1.options.data.push(series2);
+        
+        
+            series1.dataPoints = [
+                    { label: "Licencjat", y:  manLic},
+                    { label: "Inżynier", y:  manEn},
+                    { label: "Magister", y:  manMas},
+                    { label: "Doktor", y: manDr }
+            ];
+        
+            series2.dataPoints = [
+                { label: "Licencjat", y:  womanLic},
+                { label: "Inżynier", y:  womanEn},
+                { label: "Magister", y: womanMas },
+                { label: "Doktor", y:  womanDr}
+            ];
+        
+            chart1.render();
+
+
+            let chart2 = new CanvasJS.Chart("second", {
+                theme: "light2",
+                exportEnabled: true,
+                animationEnabled: true,
+                title: {
+                    text: "Stopień zadowolenia ze studiów wyższych",
+                    horizontalAlign: "center"
+                },
+                data: [{
+                    type: "pie",
+                    startAngle: 25,
+                    toolTipContent: "<b>{label}</b>: {y}%",
+                    showInLegend: "true",
+                    legendText: "{label}",
+                    indexLabelFontSize: 16,
+                    indexLabel: "{label} - {y}%",
+                    dataPoints: [
+                        { y: (vHappy*100)/sum, label: "Bardzo zadowolony/a" },
+                        { y: (happy*100)/sum, label: " Zadowolony/a" },
+                        { y: (dis*100)/sum, label: "Niezadowolony/a" },
+                        { y: (vDis*100)/sum, label: "Bardzo niezadowolony/a" }
+                    ]
+                }]
+            });
+            chart2.render();
+
+            let chart3 = new CanvasJS.Chart("third", {
+                title:{
+                    text: "Czy uczelnia jest pomocna w rozwoju kariery zawodowej",
+                    horizontalAlign: "center"
+
+                },
+                data: [              
+                {
+                    type: "column",
+                    dataPoints: [
+                        { label: "Tak",  y: helpfulYes  },
+                        { label: "Nie", y: helpfulNo  }
+
+                    ]
+                }
+                ]
+            });
+            chart3.render();
+        });
+
+
+
+}
+
 
 function sendOffline() {
     let check = validateRadioButtons();
@@ -360,7 +508,7 @@ function sendOffline() {
         uncheckedButtons(document.querySelectorAll("[name = 'degree']"));
         uncheckedButtons(document.querySelectorAll("[name = 'help']"));
         uncheckedButtons(document.querySelectorAll("[name = 'satisfaction']"));
-        document.querySelector("p.error").innerHTML = "Dane zostały dodane do lokalnej bazy danych";
+        document.querySelector("p.error").innerHTML = "Dane zostały dodane do lokalnej bazy danych. Aby zobaczyć wykresy utwórz konto i zaloguj się";
         }
     }
 }
@@ -379,7 +527,7 @@ function sendOnline() {
         let req = getRequestObject(); 
         console.log(txt);
         if (navigator.onLine) {
-            req.open("POST", "http://localhost:81/~8semkovych/projekt2/rest/save", true);
+            req.open("POST", "http://pascal.fis.agh.edu.pl/~8semkovych/projekt2/rest/save", true);
             req.onreadystatechange = function() {
                 if(req.readyState == 4 && req.status == 200) {
                     objJSON = JSON.parse(req.response);
@@ -404,7 +552,7 @@ function sendOnline() {
 
 
 
- function userRegister() {
+function userRegister() {
     console.log("User register");
     const mail = document.querySelector("[name = 'regemail']"), 
           pass =  document.querySelector("[name = 'regpsw']");
@@ -423,7 +571,7 @@ function sendOnline() {
         let txt = JSON.stringify(user);
         let req = getRequestObject();
         if(navigator.onLine) {
-            req.open("POST", "http://localhost:81/~8semkovych/projekt2/rest/register", true);
+            req.open("POST", "http://pascal.fis.agh.edu.pl/~8semkovych/projekt2/rest/register", true);
             req.onreadystatechange = function() {
                 if(req.readyState == 4 && req.status == 200) {
                     console.log(req.responseText);
@@ -461,10 +609,8 @@ function userLogin() {
         user.password = pass.value;
         let txt = JSON.stringify(user);
         let req = getRequestObject();
-        		//http://pascal.fis.agh.edu.pl/~8semkovych/projekt2/rest/login
-		//"http://localhost:81/~8semkovych/projekt2/rest/login"
         if(navigator.onLine) {
-            req.open("POST", "http://localhost:81/~8semkovych/projekt2/rest/login", true);
+            req.open("POST", "http://pascal.fis.agh.edu.pl/~8semkovych/projekt2/rest/login", true);
             req.onreadystatechange = function() {
                 if(req.readyState == 4 && req.status == 200) {
                     console.log(req.responseText);
@@ -476,7 +622,7 @@ function userLogin() {
                         document.querySelector(".menu-wrapper").innerHTML = 
                         `
                         <div><button class="btn btn-questionnaire">Ankieta</button></div>
-                        <div><button class="btn">Pokaż wyniki</button></div>
+                        <div><button class="btn btn-online">Pokaż wyniki</button></div>
                         <div><button class="btn btn-logout" onclick="userLogout()">Wyloguj się</button></div>
                         `;
                         document.querySelector(".main-content").innerHTML = getQuestionnaire();
@@ -487,7 +633,7 @@ function userLogin() {
                         localDbIndex = 0;
                     }
                     else
-                    textError.innerHTML = "Podałeś zły login lub  hasło, sprawdź swoje dane i sprobuj ponownie!";
+                    textError.innerHTML = "Podałeś zły login lub hasło, sprawdź swoje dane i sprobuj ponownie!";
                     } else {
                         textError.innerHTML = "Server error";  
                     }
@@ -506,7 +652,7 @@ function userLogout() {
     let txt = JSON.stringify(cookies);
     let req = getRequestObject();
     if(navigator.onLine) {
-        req.open("POST", "http://localhost:81/~8semkovych/projekt2/rest/logout", true);
+        req.open("POST", "http://pascal.fis.agh.edu.pl/~8semkovych/projekt2/rest/logout", true);
         req.onreadystatechange = function() {
             if(req.readyState == 4 && req.status == 200) {
                 objJSON = JSON.parse(req.response);
@@ -528,12 +674,3 @@ function userLogout() {
         alert("Jesteś w trybie online");
     }
 }
-
-
-
-
-
-
-
-
-

@@ -55,7 +55,7 @@
   }
   
     function select() {
-       $cursor = $this->collection->find();
+       $cursor = $this->questionnairecollection->find();
        $table = iterator_to_array($cursor);
        return $table ;
     }
@@ -69,7 +69,8 @@
           }          
         }
        $this->questionnairecollection->insertOne($answer) ;
-        //return $ret;
         return true;
     }
  }
+
+

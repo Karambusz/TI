@@ -26,6 +26,14 @@ h1 {
     color:khaki;
 }
 
+h2 {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 22px;
+    color:khaki;
+}
+
 .menu-wrapper {
     width: 700px;
     margin: 0 auto;
@@ -135,6 +143,15 @@ th {
     background-color: rgb(57, 240, 57);
 }
 
+#first, #second, #third {
+    display: block;
+    width: 650px;
+    height: 400px;
+    margin: 0 auto;
+    margin-top: 10px;
+    border: 1px solid black;
+    margin-bottom: 10px;
+}
 
 
 

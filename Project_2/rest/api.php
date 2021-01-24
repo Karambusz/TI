@@ -22,15 +22,7 @@ class API extends REST {
             $this->response('Page not found',404); }         
     }
          
-          
-    private function _list(){   
-        if($this->get_request_method() != "GET"){
-            $this->response('',406);
-        }
-        $result = $this->db->select() ;            
-        $this->response($this->json($result), 200); 
-    }
- 
+    
     private function json($data){
         if(is_array($data)){
             return json_encode($data);
@@ -58,6 +50,19 @@ class API extends REST {
         } else {
             $error = array('status' => "Failed", "msg" => "Invalid send data");
             $this->response($this->json($error), 400);
+        }
+    }
+
+    private function _list() {   
+        if($this->get_request_method() != "GET"){
+            $this->response('',406);
+        }
+        try{
+            $result = $this->db->select();            
+            $this->response($this->json($result), 200); 
+        } 
+        catch (Exception $e) {
+            $this->response('', 400);
         }
     }
 
