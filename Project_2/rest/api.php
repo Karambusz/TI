@@ -81,7 +81,7 @@ class API extends REST {
                 } 
                 else {
                     $result = array('status'=>'Failed', "msg" => "Invalid send data");
-                    $this->response($this->json($result), 200);
+                    $this->response($this->json($result), 401);
                 } 
             } 
             catch (Exception $e) {
@@ -92,6 +92,32 @@ class API extends REST {
             $error = array('status' => "Failed", "msg" => "Empty data");
             $this->response($this->json($error), 400);
         }   
+    }
+	
+	private function _session(){
+        if($this->get_request_method() != "POST")
+            $this->response('',406);
+        if(!empty($this->_request) ){
+            try {
+                $json_array = json_decode($this->_request,true);              
+                $res = $this->db->session($json_array);
+                if ( $res ) {
+                    $result = array('status'=>'OK', "msg" => "Timeout session");
+                    $this->response($this->json($result), 200);
+                } 
+                else{
+                    $result = array('status'=>'Failed');
+                    $this->response($this->json($result), 200);
+                } 
+            } 
+            catch (Exception $e){
+                $this->response('', 400);
+            }
+        } 
+        else {
+            $error = array('status' => "Failed", "msg" => "Empty data");
+            $this->response($this->json($error), 400);
+        } 
     }
 
     private function _register(){

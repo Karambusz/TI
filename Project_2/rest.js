@@ -360,8 +360,7 @@ function showOnline() {
         happy = 0,
         vDis = 0,
         dis = 0;
-    document.querySelector(".main-content").innerHTML = getCanvas();
-    console.log(document.getElementById("first-canvas"));     
+    document.querySelector(".main-content").innerHTML = getCanvas();    
 
 
     getResource('http://pascal.fis.agh.edu.pl/~8semkovych/projekt2/rest/list')
@@ -546,7 +545,10 @@ function sendOnline() {
         } else {
             document.querySelector("p.error").innerHTML = "Jesteś w trybie offline."; 
         }
-    }     
+    }
+    if(navigator.onLine == false) {
+        document.querySelector("p.error").innerHTML = "Jesteś w trybie offline."; 
+    }    
 }
 
 
@@ -593,6 +595,26 @@ function userRegister() {
     }
 } 
 
+sessionTimeout();
+
+function sessionTimeout() {
+    let session = {};
+    session.id = checkCookie();
+    let txt = JSON.stringify(session);
+    let req = getRequestObject();
+    req.open("POST", "http://pascal.fis.agh.edu.pl/~8semkovych/projekt2/rest/session", true);
+    req.onreadystatechange = function() {
+        if(req.readyState == 4 && req.status == 200) {
+            console.log(req.responseText);
+            objJSON = JSON.parse(req.response);
+            if(objJSON['status'] == 'OK') {
+                userLogout();
+            }
+        }
+    }
+    req.send(txt);
+}
+
 
 function userLogin() {
     console.log("User login");
@@ -637,6 +659,9 @@ function userLogin() {
                     } else {
                         textError.innerHTML = "Server error";  
                     }
+				if(req.readyState == 4 && req.status == 401) {
+						textError.innerHTML = "Podałeś zły login lub hasło, sprawdź swoje dane i sprobuj ponownie!";
+				}
                     
             }
             req.send(txt);
@@ -655,6 +680,7 @@ function userLogout() {
         req.open("POST", "http://pascal.fis.agh.edu.pl/~8semkovych/projekt2/rest/logout", true);
         req.onreadystatechange = function() {
             if(req.readyState == 4 && req.status == 200) {
+				console.log(req.responseText);
                 objJSON = JSON.parse(req.response);
                 if (objJSON['status'] == 'OK'){
                     document.cookie = "sessionID=" + "" + "; path=/";

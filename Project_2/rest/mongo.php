@@ -3,6 +3,7 @@
  //require 'vendor/autoload.php' ;
  ini_set('display_errors', 1);
 
+session_start();
  class db {
     private $user = "8semkovych" ;
     private $pass = "pass8semkovych";
@@ -42,15 +43,31 @@
         $cursor = $this->usercollection->find();
         foreach ($cursor as $doc) {
             if($doc['email'] == $email && $doc['pass'] == $pass) {
-                $_SESSION['user'] = $email;
+                $_SESSION['user'] = md5($email);
                 return $_SESSION['user'];
             }          
         }
         return false;
     }
+	
+
+    public function session($arr) {
+      $id = isset($_SESSION['user']);
+      $time = $_SERVER['REQUEST_TIME'];
+      $timeout_duration = 1800;
+      if (isset($_SESSION['LAST_ACTIVITY']) && $id == true && ($time - $_SESSION['LAST_ACTIVITY']) > $timeout_duration) {
+        session_unset();
+        session_destroy();
+        session_start();
+        return true;
+      }
+      $_SESSION['LAST_ACTIVITY'] = $time;
+      return false;  
+    }
 
     public function logout($user){
       unset($_SESSION);
+	  session_destroy(); 
       return true;
   }
   
@@ -69,6 +86,7 @@
           }          
         }
        $this->questionnairecollection->insertOne($answer) ;
+        //return $ret;
         return true;
     }
  }
